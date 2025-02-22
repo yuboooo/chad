@@ -5,3 +5,14 @@ __pycache__/
 .venv
 venv/
 backend/function/agents/old_agent_complete.py
+
+
+.env
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+
+*.swp
