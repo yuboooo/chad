@@ -23,11 +23,8 @@ RUN mkdir -p /etc/alsa && \
 # Copy the entire backend directory
 COPY . .
 
-# Copy requirements first for better caching
-COPY requirements.txt .
-
-# Install Python dependencies
-RUN pip install -r requirements.txt
+# Install Python dependencies with the correct path
+RUN pip install -r ./requirements.txt
 
 # Railway will provide the PORT environment variable
 ENV PORT=5001
