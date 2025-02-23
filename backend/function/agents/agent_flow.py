@@ -27,8 +27,16 @@ class AgentFlow:
         self.checking_llm = IntentClassifierProcessor()
         self.action_llm = ActionLanguageModelProcessor()
 
+    def clear_conversation_memory(self):
+        """Clear the conversation memory in chat LLM"""
+        self.chat_llm.clear_memory()
+
     async def process_chat(self, text):
         """Handle the chat response and return it"""
+        # Check if it's a new conversation start indicator
+        if text.lower() in ["new conversation"]:
+            self.clear_conversation_memory()
+        
         response = self.chat_llm.process(text)
         return response
 
