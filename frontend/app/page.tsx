@@ -6,8 +6,13 @@ export default function Home() {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState('');
 
+  // Add this constant at the top of your component
+  const API_URL = process.env.NODE_ENV === 'development' 
+    ? 'http://127.0.0.1:5001'
+    : 'https://chad-production-c01d.up.railway.app';
+
   useEffect(() => {
-    fetch('https://chad-production-c01d.up.railway.app/')
+    fetch(`${API_URL}/`)
       .then(response => response.json())
       .then(data => setMessage(data.message))
       .catch(error => console.error('Error:', error));
@@ -81,7 +86,7 @@ export default function Home() {
 
   const sendToBackend = async (text: string) => {
     try {
-      const response = await fetch('https://chad-production-c01d.up.railway.app/chat', {
+      const response = await fetch(`${API_URL}/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -90,6 +95,13 @@ export default function Home() {
       });
       
       const data = await response.json();
+      
+      // Handle action response
+      if (data.action_response) {
+        console.log(data.action_response.params.url);
+        // Open URL in a new tab/window
+        window.open(data.action_response.params?.url, '_blank');
+      }
       
       if (data.audio) {
         await playAudio(data.audio);
