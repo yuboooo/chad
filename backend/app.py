@@ -24,6 +24,7 @@ async def chat():
     # Process both chat and action
     chat_response = await agent.process_chat(text)
     action_response = await agent.process_action(text)
+    print(action_response)
     
     # Get audio for the response
     audio_data = None
@@ -32,8 +33,8 @@ async def chat():
     
     return jsonify({
         "chat_response": chat_response,
-        "action_response": action_response,
-        "audio": audio_data.hex() if audio_data else None  # Convert bytes to hex string
+        "action_response": action_response,  # This will now be the action object directly
+        "audio": audio_data.hex() if audio_data else None
     })
 
 if __name__ == '__main__':

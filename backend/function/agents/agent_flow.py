@@ -38,15 +38,11 @@ class AgentFlow:
         
         if "action" in intents:
             actions = self.action_llm.process(text)
+            print(actions)
             
-            if actions:
-                for action in actions:
-                    result = execute_open_url(action)
-                    status = "I've successfully opened that website for you" if result == 1 else "I wasn't able to open that website"
-                    return self.chat_llm.process(status)
-            
-            status = "I wasn't able to open that website"
-            return self.chat_llm.process(status)
+            if actions and isinstance(actions, list) and len(actions) > 0:
+                # Return the first action directly instead of executing it
+                return actions[0]
         
         return None
 
