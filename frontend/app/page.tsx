@@ -15,6 +15,17 @@ export default function Home() {
 
   const startListening = () => {
     if ('webkitSpeechRecognition' in window) {
+      // Define proper types for WebkitSpeechRecognition
+      type SpeechRecognitionEvent = {
+        results: {
+          [key: number]: {
+            [key: number]: {
+              transcript: string;
+            };
+          };
+        };
+      };
+
       const recognition = new (window as any).webkitSpeechRecognition();
       recognition.continuous = false;
       recognition.interimResults = false;
@@ -23,8 +34,7 @@ export default function Home() {
         setIsListening(true);
       };
 
-      // @ts-ignore
-      recognition.onresult = (event: any) => {
+      recognition.onresult = (event: SpeechRecognitionEvent) => {
         const text = event.results[0][0].transcript;
         setTranscript(text);
         sendToBackend(text);

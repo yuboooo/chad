@@ -2,8 +2,8 @@ from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import os
 from io import BytesIO
-from backend.function.agents.agent_flow import AgentFlow
-from backend.function.util.text_to_speech import TextToSpeech
+from function.agents.agent_flow import AgentFlow
+from function.util.text_to_speech import TextToSpeech
 
 app = Flask(__name__)
 CORS(app)
