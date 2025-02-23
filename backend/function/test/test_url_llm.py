@@ -4,7 +4,7 @@ import os
 # Add the project root to Python path to fix imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-from function.llms.action_llm import ActionLanguageModelProcessor
+from backend.function.llms.url_llm import ActionLanguageModelProcessor
 from function.action.open_url import execute_open_url
 
 def test_action_detection():

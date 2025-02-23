@@ -1,3 +1,14 @@
+"""
+Manages a voice-based conversation loop between a user and an AI language model.
+Handles speech-to-text transcription, language model processing, and text-to-speech output.
+The conversation continues until the user says "goodbye".
+
+Key components:
+- Speech-to-text: Continuously transcribes user speech
+- Language model: Processes transcribed text and generates responses
+- Text-to-speech: Converts AI responses to spoken audio
+"""
+
 import asyncio
 from backend.function.llms.chat_llm import LanguageModelProcessor
 from backend.function.util.text_to_speech import TextToSpeech
