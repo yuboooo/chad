@@ -27,8 +27,16 @@ class AgentFlow:
         self.checking_llm = IntentClassifierProcessor()
         self.action_llm = ActionLanguageModelProcessor()
 
+    def clear_conversation_memory(self):
+        """Clear the conversation memory in chat LLM"""
+        self.chat_llm.clear_memory()
+
     async def process_chat(self, text):
         """Handle the chat response and return it"""
+        # Check if it's a new conversation start indicator
+        if text.lower() in ["new conversation"]:
+            self.clear_conversation_memory()
+        
         response = self.chat_llm.process(text)
         return response
 
@@ -38,15 +46,11 @@ class AgentFlow:
         
         if "action" in intents:
             actions = self.action_llm.process(text)
+            print(actions)
             
-            if actions:
-                for action in actions:
-                    result = execute_open_url(action)
-                    status = "I've successfully opened that website for you" if result == 1 else "I wasn't able to open that website"
-                    return self.chat_llm.process(status)
-            
-            status = "I wasn't able to open that website"
-            return self.chat_llm.process(status)
+            if actions and isinstance(actions, list) and len(actions) > 0:
+                # Return the first action directly instead of executing it
+                return actions[0]
         
         return None
 

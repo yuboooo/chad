@@ -37,6 +37,10 @@ class LanguageModelProcessor:
             memory=self.memory
         )
 
+    def clear_memory(self):
+        """Clear the conversation memory"""
+        self.memory.clear()
+
     def process(self, text):
         self.memory.chat_memory.add_user_message(text)
 
