@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  backend:
+    container_name: chad-docker
+    build: 
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "5001:5000"
+    volumes:
+      - .:/chad
+    working_dir: /chad/backend
