@@ -1,32 +1,12 @@
 FROM python:3.11-slim
 
-# Set working directory
-WORKDIR /chad/backend
+WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    gcc \
-    python3-dev \
-    portaudio19-dev \
-    ffmpeg \
-    libasound2 \
-    libasound2-plugins \
-    alsa-utils \
-    libsndfile1 \
-    && rm -rf /var/lib/apt/lists/*
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
-# Create ALSA configuration
-RUN mkdir -p /etc/alsa && \
-    echo 'pcm.!default { type null }' > /etc/asound.conf && \
-    echo 'ctl.!default { type null }' >> /etc/asound.conf
-
-# Copy the entire backend directory
 COPY . .
 
-# Install Python dependencies with the correct path
-RUN pip install -r ./requirements.txt
+EXPOSE 5001
 
-# Railway will provide the PORT environment variable
-ENV PORT=5001
-
-# We'll let railway.toml handle the start command
+CMD ["python", "app.py"]

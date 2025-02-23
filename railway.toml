@@ -1,13 +1,8 @@
 [build]
-builder = "DOCKERFILE"
-dockerfilePath = "backend/Dockerfile"
-buildContext = "backend"
+builder = "nixpacks"
+buildCommand = "pip install -r requirements.txt"
 
 [deploy]
+startCommand = "python backend/app.py"
 healthcheckPath = "/"
-restartPolicyType = "on_failure"
-startCommand = "cd /chad/backend && gunicorn --bind 0.0.0.0:$PORT app:app"
-
-[mount]
-source = "./backend"
-destination = "/chad/backend" 
+healthcheckTimeout = 100
