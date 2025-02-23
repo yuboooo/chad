@@ -18,8 +18,14 @@ def hello():
 @app.route('/chat', methods=['POST'])
 async def chat():
     text = request.json.get('text', '')
+    clear_memory = request.json.get('clear_memory', False)  # New parameter
+    
     if not text:
         return jsonify({"error": "No text provided"}), 400
+    
+    # Clear memory if requested
+    if clear_memory:
+        agent.clear_conversation_memory()
     
     # Process both chat and action
     chat_response = await agent.process_chat(text)

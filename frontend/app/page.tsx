@@ -91,7 +91,12 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({ 
+          text,
+          // Clear memory for conversation starters
+          clear_memory: ['new conversation']
+            .includes(text.toLowerCase())
+        }),
       });
       
       const data = await response.json();
