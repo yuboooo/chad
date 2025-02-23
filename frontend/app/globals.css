@@ -14,8 +14,48 @@
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* ✅ Prevents scrolling */
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url('/bg.png') no-repeat center center fixed;
+  background-size: cover; /* ✅ Ensures the image covers the entire screen */
 }
+
+.screen {
+  position: fixed;  /* ✅ Keeps the screen in a fixed position */
+  /*bottom: 440px;
+  right: 782px;
+  */
+  top: var(--var4);
+  left: var(--var3);
+  width: var(--var1);
+  height: var(--var2);
+  background-color: black;
+  color: white;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5); /* ✅ Optional glow effect */
+}
+
+.screen-content {
+  width: var(--var1);
+  height: var(--var2);
+  background-color: black;  /* ✅ Black screen */
+  color: white;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  padding: 20px;
+}
+
