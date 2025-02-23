@@ -7,7 +7,7 @@ CORS(app)
 
 @app.route('/')
 def hello():
-    return {"message": "Hello from Chad"}
+    return {"message": "Hello from Chad, this is connected to railway"}
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5001))
