@@ -28,10 +28,13 @@ html, body {
 
 .screen {
   position: fixed;  /* ✅ Keeps the screen in a fixed position */
-  bottom: 440px;
+  /*bottom: 440px;
   right: 782px;
-  width: 150px;
-  height: 110px;
+  */
+  top: var(--var4);
+  left: var(--var3);
+  width: var(--var1);
+  height: var(--var2);
   background-color: black;
   color: white;
   font-size: 2rem;
@@ -44,8 +47,8 @@ html, body {
 }
 
 .screen-content {
-  width: 140px;
-  height: 100px;
+  width: var(--var1);
+  height: var(--var2);
   background-color: black;  /* ✅ Black screen */
   color: white;
   font-size: 2rem;
