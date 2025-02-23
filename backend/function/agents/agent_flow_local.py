@@ -14,41 +14,50 @@ Key components:
 """
 
 import asyncio
-from function.llms.chat_llm import LanguageModelProcessor
-from function.llms.checking_llm import IntentClassifierProcessor
-from function.llms.url_llm import ActionLanguageModelProcessor
-from function.util.text_to_speech import TextToSpeech
-from function.util.speech_to_text import get_transcript
-from function.action.open_url import execute_open_url
+from backend.function.llms.chat_llm import LanguageModelProcessor
+from backend.function.llms.checking_llm import IntentClassifierProcessor
+from backend.function.llms.url_llm import ActionLanguageModelProcessor
+from backend.function.util.text_to_speech import TextToSpeech
+from backend.function.util.speech_to_text import get_transcript
+from backend.function.action.open_url import execute_open_url
 
 class AgentFlow:
     def __init__(self):
+        self.transcription_response = ""
         self.chat_llm = LanguageModelProcessor()
         self.checking_llm = IntentClassifierProcessor()
         self.action_llm = ActionLanguageModelProcessor()
+        self.tts = TextToSpeech()
 
     async def process_chat(self, text):
-        """Handle the chat response and return it"""
+        """Handle the chat response in a separate task"""
         response = self.chat_llm.process(text)
-        return response
+        self.tts.speak(response)
 
     async def process_action(self, text):
-        """Handle the action detection and execution, return the response"""
+        """Handle the action detection and execution"""
+        # First check if this is an action
         intents = self.checking_llm.process(text)
+
+        print(f"Intents: {intents}")
         
         if "action" in intents:
+            # Get specific actions from url_llm
             actions = self.action_llm.process(text)
+            print(f"Actions: {actions}")
             
             if actions:
                 for action in actions:
                     result = execute_open_url(action)
+                    # Create action status message
                     status = "I've successfully opened that website for you" if result == 1 else "I wasn't able to open that website"
-                    return self.chat_llm.process(status)
-            
-            status = "I wasn't able to open that website"
-            return self.chat_llm.process(status)
-        
-        return None
+                    # Process the status through chat_llm for a natural response
+                    response = self.chat_llm.process(status)
+                    self.tts.speak(response)
+            else:
+                status = "I wasn't able to open that website"
+                response = self.chat_llm.process(status)
+                self.tts.speak(response)
 
     async def main(self):
         def handle_full_sentence(full_sentence):
@@ -60,6 +69,7 @@ class AgentFlow:
             
             if "goodbye" in self.transcription_response.lower():
                 farewell = self.chat_llm.process("goodbye")
+                self.tts.speak(farewell)
                 break
             
             # Process both chat and action concurrently
