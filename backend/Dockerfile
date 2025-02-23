@@ -1,6 +1,6 @@
 FROM python:3.11-slim
 
-WORKDIR /app
+WORKDIR /chad/backend
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -19,11 +19,12 @@ RUN mkdir -p /etc/alsa && \
     echo 'pcm.!default { type null }' > /etc/asound.conf && \
     echo 'ctl.!default { type null }' >> /etc/asound.conf
 
-COPY backend/requirements.txt .
+COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY . .
 
-EXPOSE 5000
+# Railway will provide the PORT environment variable, but we'll default to 5001
+ENV PORT=5001
 
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+CMD gunicorn --bind 0.0.0.0:$PORT app:app

@@ -3,10 +3,10 @@ services:
   backend:
     container_name: chad-docker
     build: 
-      context: .
-      dockerfile: backend/Dockerfile
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
-      - "5001:5000"
+      - "5001:5001"
     volumes:
-      - .:/chad
+      - ./backend:/chad/backend
     working_dir: /chad/backend
