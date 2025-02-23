@@ -1,10 +1,10 @@
 FROM python:3.11-slim
 
-# Set working directory
-WORKDIR /chad/backend
+WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
+# Install dependencies in a single RUN command with cleanup
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
     gcc \
     python3-dev \
     portaudio19-dev \
@@ -13,21 +13,19 @@ RUN apt-get update && apt-get install -y \
     libasound2-plugins \
     alsa-utils \
     libsndfile1 \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /var/cache/apt/*
 
 # Create ALSA configuration
-RUN mkdir -p /etc/alsa && \
-    echo 'pcm.!default { type null }' > /etc/asound.conf && \
+RUN echo 'pcm.!default { type null }' > /etc/asound.conf && \
     echo 'ctl.!default { type null }' >> /etc/asound.conf
 
-# Copy requirements first to leverage Docker cache
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application
 COPY . .
 
-# Railway will provide the PORT environment variable
-ENV PORT=5001
+EXPOSE 5001
 
-# We'll let railway.toml handle the start command
+CMD ["gunicorn", "app:app"]
