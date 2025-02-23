@@ -5,7 +5,7 @@ export default function Home() {
   const [message, setMessage] = useState('Loading...');
 
   useEffect(() => {
-    fetch('http://localhost:5001/')
+    fetch('https://chad-production-c01d.up.railway.app/')
       .then(response => response.json())
       .then(data => setMessage(data.message))
       .catch(error => console.error('Error:', error));
