@@ -6,3 +6,4 @@ dockerfilePath = "backend/Dockerfile"
 startCommand = "gunicorn app:app"
 healthcheckPath = "/"
 healthcheckTimeout = 100
+restartPolicyType = "on_failure"
