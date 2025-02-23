@@ -1,5 +1,17 @@
+"""
+Manages voice-based action execution through speech recognition and language model processing.
+Listens for voice commands, processes them to detect actions (like opening URLs),
+and provides voice feedback on action execution status.
+
+Key components:
+- Speech-to-text: Captures voice commands
+- Action processing: Identifies actionable commands via LLM
+- Action execution: Performs detected actions (e.g., opening URLs)
+- Voice feedback: Confirms action status through text-to-speech
+"""
+
 import asyncio
-from backend.function.llms.action_llm import ActionLanguageModelProcessor
+from backend.function.llms.url_llm import ActionLanguageModelProcessor
 from backend.function.util.text_to_speech import TextToSpeech
 from backend.function.util.speech_to_text import get_transcript
 from backend.function.action.open_url import execute_open_url

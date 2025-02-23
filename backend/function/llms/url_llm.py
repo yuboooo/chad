@@ -19,7 +19,7 @@ class ActionLanguageModelProcessor:
         self.llm = ChatGroq(temperature=0, model_name="mixtral-8x7b-32768", groq_api_key=os.getenv("GROQ_API_KEY"))
         
         # Load the system prompt from a file
-        prompt_path = os.path.join(os.path.dirname(__file__), '..', 'prompts', 'action_prompt_url.txt')
+        prompt_path = os.path.join(os.path.dirname(__file__), '..', 'prompts', 'url_action_prompt.txt')
         with open(prompt_path, 'r') as file:
             action_prompt = file.read().strip()
         
