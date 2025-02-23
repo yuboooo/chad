@@ -16,6 +16,19 @@ export default function Home() {
   const startListening = () => {
     if ('webkitSpeechRecognition' in window) {
       // Define proper types for WebkitSpeechRecognition
+      interface Window {
+        webkitSpeechRecognition: new () => SpeechRecognition;
+      }
+      
+      interface SpeechRecognition {
+        continuous: boolean;
+        interimResults: boolean;
+        onstart: () => void;
+        onresult: (event: SpeechRecognitionEvent) => void;
+        onend: () => void;
+        start: () => void;
+      }
+
       type SpeechRecognitionEvent = {
         results: {
           [key: number]: {
@@ -26,7 +39,7 @@ export default function Home() {
         };
       };
 
-      const recognition = new (window as any).webkitSpeechRecognition();
+      const recognition = new (window as Window).webkitSpeechRecognition();
       recognition.continuous = false;
       recognition.interimResults = false;
 

@@ -14,12 +14,12 @@ Key components:
 """
 
 import asyncio
-from backend.function.llms.chat_llm import LanguageModelProcessor
-from backend.function.llms.checking_llm import IntentClassifierProcessor
-from backend.function.llms.url_llm import ActionLanguageModelProcessor
-from backend.function.util.text_to_speech import TextToSpeech
-from backend.function.util.speech_to_text import get_transcript
-from backend.function.action.open_url import execute_open_url
+from function.llms.chat_llm import LanguageModelProcessor
+from function.llms.checking_llm import IntentClassifierProcessor
+from function.llms.url_llm import ActionLanguageModelProcessor
+from function.util.text_to_speech import TextToSpeech
+from function.util.speech_to_text import get_transcript
+from function.action.open_url import execute_open_url
 
 class AgentFlow:
     def __init__(self):
