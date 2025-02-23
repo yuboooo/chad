@@ -7,7 +7,7 @@ export default function Home() {
   const [transcript, setTranscript] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:5001/')
+    fetch('https://chad-dev.up.railway.app/')
       .then(response => response.json())
       .then(data => setMessage(data.message))
       .catch(error => console.error('Error:', error));
@@ -81,7 +81,7 @@ export default function Home() {
 
   const sendToBackend = async (text: string) => {
     try {
-      const response = await fetch('http://localhost:5001/chat', {
+      const response = await fetch('https://chad-dev.up.railway.app/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
