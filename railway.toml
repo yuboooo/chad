@@ -5,4 +5,9 @@ buildContext = "backend"
 
 [deploy]
 healthcheckPath = "/"
-restartPolicyType = "on_failure" 
+restartPolicyType = "on_failure"
+startCommand = "cd /chad/backend && gunicorn --bind 0.0.0.0:$PORT app:app"
+
+[mount]
+source = "./backend"
+destination = "/chad/backend" 
