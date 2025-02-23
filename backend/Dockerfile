@@ -20,12 +20,11 @@ RUN mkdir -p /etc/alsa && \
     echo 'pcm.!default { type null }' > /etc/asound.conf && \
     echo 'ctl.!default { type null }' >> /etc/asound.conf
 
-# Copy requirements first to leverage Docker cache
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-
-# Copy the rest of the application
+# Copy the entire backend directory
 COPY . .
+
+# Install Python dependencies
+RUN pip install -r requirements.txt
 
 # Railway will provide the PORT environment variable
 ENV PORT=5001
