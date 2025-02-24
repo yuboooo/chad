@@ -39,7 +39,6 @@ function getScrPxSize():[number,number, number, number]{
 export default function DynamicScreen() {
   const [blinkState, setBlinkState] = useState(false);
   const [eyeMove, setEyeMove] = useState({ x: 0, y: 0 });
-  const [mouthSmile, setMouthSmile] = useState(0);
 
   useEffect(() => {
     // Blink animation - more frequent for cuteness
@@ -55,10 +54,6 @@ export default function DynamicScreen() {
       });
     }, 50);
 
-    // Gentle mouth animation
-    const mouthInterval = setInterval(() => {
-      setMouthSmile(Math.sin(Date.now() / 2000) * 5);
-    }, 100);
 
     const updateSz = () => {
         const [w,h,l,u] = getScrPxSize();
@@ -74,7 +69,6 @@ export default function DynamicScreen() {
     return () => {
         clearInterval(blinkInterval);
         clearInterval(moveInterval);
-        clearInterval(mouthInterval);
         window.removeEventListener("resize", resizeListener);
     };
   }, []);
@@ -92,10 +86,6 @@ export default function DynamicScreen() {
             style={{ transform: `translate(${eyeMove.x}px, ${eyeMove.y}px)` }}
           />
         </div>
-        <div 
-          className="mouth"
-          style={{ transform: `translateY(${mouthSmile}px)` }}
-        />
       </div>
     </div>
   );

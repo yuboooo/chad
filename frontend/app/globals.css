@@ -59,8 +59,6 @@ html, body {
   padding: 20px;
 }
 
-
-
 .cute-face {
   position: relative;
   width: 100%;
@@ -87,11 +85,4 @@ html, body {
 
 .eye.blink {
   transform: scaleY(0.2) !important;
-}
-
-.mouth {
-  width: 30px;
-  height: 3px;
-  background: white;
-  border-radius: 20px;
 }
