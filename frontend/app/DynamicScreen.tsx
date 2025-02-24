@@ -62,7 +62,7 @@ export default function DynamicScreen() {
   }, []);
 
   return (
-    <div className="screen-content">
+    <div className="screen-content crt">
       <p>{randomNumber}</p>
     </div>
   );
