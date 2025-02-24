@@ -126,39 +126,54 @@ export default function Home() {
 
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        {/* Display conversation history */}
-        <div className="w-full max-w-2xl space-y-4 mb-8">
-          {conversationHistory.map((message, index) => (
-            <div 
-              key={index} 
-              className={`p-4 rounded-lg ${
-                message.role === 'user' 
-                  ? 'bg-blue-100 ml-auto max-w-[80%]' 
-                  : 'bg-gray-100 mr-auto max-w-[80%]'
-              }`}
-            >
-              <p className="text-sm font-semibold mb-1">
-                {message.role === 'user' ? 'You' : 'Assistant'}
-              </p>
-              <p>{message.content}</p>
-            </div>
-          ))}
-        </div>
-        
+    <div className="grid grid-rows-[1fr_auto] min-h-screen">
+      <div className="row-start-1">
         <div className="screen">
           <DynamicScreen />
         </div>
-        <div className="flex flex-col gap-4">
+      </div>
+      {/* bg-black/80  */}
+      {/* Chat container - fixed width and centered */}
+      <div className="row-start-2 w-[350px] h-[35vh]  p-4 mb-3">
+        {/* Chat history with fixed width messages */}
+        <div className="h-[calc(37vh-7rem)] overflow-y-auto mb-8 scrollbar-thin scrollbar-thumb-green-500 scrollbar-track-gray-800">
+          {conversationHistory.map((message, index) => (
+            <div 
+              key={index} 
+              className={`mb-2 ${
+                message.role === 'user' 
+                  ? 'text-right' 
+                  : 'text-left'
+              }`}
+            >
+              <div className={`inline-block w-[200px] break-words whitespace-normal ${
+                message.role === 'user'
+                  ? 'bg-green-900/40 border-green-500/50'
+                  : 'bg-gray-900/40 border-blue-500/50'
+                } p-3 rounded border text-green-400 font-mono text-sm`}
+              >
+                <div className="text-xs opacity-50 mb-1">
+                  {message.role === 'user' ? '> USER_INPUT' : '> SYSTEM_RESPONSE'}
+                </div>
+                <div className="font-mono">
+                  {message.content}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Voice control button - centered in fixed width container */}
+        <div className="flex justify-center">
           <button 
             onClick={startListening}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            className="px-6 py-2 bg-green-900/40 text-green-400 border border-green-500/50 rounded 
+              hover:bg-green-800/40 font-mono text-sm transition-colors duration-200"
           >
-            {isListening ? 'Listening...' : 'Start Speaking'}
+            {isListening ? '>> LISTENING...' : '>> START_VOICE_INPUT'}
           </button>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
