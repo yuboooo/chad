@@ -39,21 +39,47 @@ function getScrPxSize():[number,number, number, number]{
 export default function DynamicScreen() {
   const [blinkState, setBlinkState] = useState(false);
   const [eyeMove, setEyeMove] = useState({ x: 0, y: 0 });
+  const [targetPos, setTargetPos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    // Blink animation - more frequent for cuteness
+    // Blink animation
     const blinkInterval = setInterval(() => {
       setBlinkState(prev => !prev);
     }, 4000);
 
-    // Subtle eye movement
+    // Smooth eye movement animation
     const moveInterval = setInterval(() => {
-      setEyeMove({
-        x: Math.sin(Date.now() / 1000) * 3,
-        y: Math.cos(Date.now() / 1500) * 2
-      });
-    }, 50);
+      setEyeMove(prev => ({
+        x: prev.x + (targetPos.x - prev.x) * 0.2,
+        y: prev.y + (targetPos.y - prev.y) * 0.2
+      }));
+    }, 10);
 
+    // Mouse movement handler
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = document.querySelector('.cute-face')?.getBoundingClientRect();
+      if (!rect) return;
+
+      // Calculate mouse position relative to face center
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      
+      // Calculate distance from center (max 20px movement)
+      const deltaX = (e.clientX - centerX) / rect.width * 40;
+      const deltaY = (e.clientY - centerY) / rect.height * 40;
+      
+      // Limit movement range
+      const maxMove = 20;
+      const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+      const scale = distance > maxMove ? maxMove / distance : 1;
+
+      setTargetPos({
+        x: deltaX * scale,
+        y: deltaY * scale
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
 
     const updateSz = () => {
         const [w,h,l,u] = getScrPxSize();
@@ -70,8 +96,9 @@ export default function DynamicScreen() {
         clearInterval(blinkInterval);
         clearInterval(moveInterval);
         window.removeEventListener("resize", resizeListener);
+        window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, []);
+  }, [targetPos]);
 
   return (
     <div className="screen-content crt">
@@ -79,11 +106,17 @@ export default function DynamicScreen() {
         <div className="eyes">
           <div 
             className={`eye ${blinkState ? 'blink' : ''}`}
-            style={{ transform: `translate(${eyeMove.x}px, ${eyeMove.y}px)` }}
+            style={{ 
+              transform: `translate(${eyeMove.x}px, ${eyeMove.y}px)`,
+              transition: 'transform 0.1s cubic-bezier(0.34, 1.56, 0.64, 1)'
+            }}
           />
           <div 
             className={`eye ${blinkState ? 'blink' : ''}`}
-            style={{ transform: `translate(${eyeMove.x}px, ${eyeMove.y}px)` }}
+            style={{ 
+              transform: `translate(${eyeMove.x}px, ${eyeMove.y}px)`,
+              transition: 'transform 0.1s cubic-bezier(0.34, 1.56, 0.64, 1)'
+            }}
           />
         </div>
       </div>
