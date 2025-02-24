@@ -74,7 +74,7 @@ export default function DynamicScreen() {
   }, []);
 
   return (
-    <div className="screen-content">
+    <div className="screen-content crt">
       <div className="cute-face">
         <div className="eyes">
           <div 
