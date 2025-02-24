@@ -37,12 +37,28 @@ function getScrPxSize():[number,number, number, number]{
 
 
 export default function DynamicScreen() {
-  const [randomNumber, setRandomNumber] = useState(0);
+  const [blinkState, setBlinkState] = useState(false);
+  const [eyeMove, setEyeMove] = useState({ x: 0, y: 0 });
+  const [mouthSmile, setMouthSmile] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setRandomNumber(Math.floor(Math.random() * 100)); // Generate a random number between 0-99
-    }, 1000);
+    // Blink animation - more frequent for cuteness
+    const blinkInterval = setInterval(() => {
+      setBlinkState(prev => !prev);
+    }, 4000);
+
+    // Subtle eye movement
+    const moveInterval = setInterval(() => {
+      setEyeMove({
+        x: Math.sin(Date.now() / 1000) * 3,
+        y: Math.cos(Date.now() / 1500) * 2
+      });
+    }, 50);
+
+    // Gentle mouth animation
+    const mouthInterval = setInterval(() => {
+      setMouthSmile(Math.sin(Date.now() / 2000) * 5);
+    }, 100);
 
     const updateSz = () => {
         const [w,h,l,u] = getScrPxSize();
@@ -56,14 +72,31 @@ export default function DynamicScreen() {
     window.addEventListener("resize", resizeListener);
 
     return () => {
-        clearInterval(interval); // Cleanup interval on unmount
+        clearInterval(blinkInterval);
+        clearInterval(moveInterval);
+        clearInterval(mouthInterval);
         window.removeEventListener("resize", resizeListener);
     };
   }, []);
 
   return (
     <div className="screen-content">
-      <p>{randomNumber}</p>
+      <div className="cute-face">
+        <div className="eyes">
+          <div 
+            className={`eye ${blinkState ? 'blink' : ''}`}
+            style={{ transform: `translate(${eyeMove.x}px, ${eyeMove.y}px)` }}
+          />
+          <div 
+            className={`eye ${blinkState ? 'blink' : ''}`}
+            style={{ transform: `translate(${eyeMove.x}px, ${eyeMove.y}px)` }}
+          />
+        </div>
+        <div 
+          className="mouth"
+          style={{ transform: `translateY(${mouthSmile}px)` }}
+        />
+      </div>
     </div>
   );
 }

@@ -59,3 +59,39 @@ html, body {
   padding: 20px;
 }
 
+
+
+.cute-face {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.eyes {
+  display: flex;
+  gap: 40px;
+}
+
+.eye {
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-radius: 50%;
+  transition: all 0.1s ease;
+}
+
+.eye.blink {
+  transform: scaleY(0.2) !important;
+}
+
+.mouth {
+  width: 30px;
+  height: 3px;
+  background: white;
+  border-radius: 20px;
+}
