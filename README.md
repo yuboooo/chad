@@ -42,6 +42,9 @@ On the software front, we're excited to evolve Chad into an even more personable
 
 Looking ahead to the hardware journey, we envision bringing Chad to life in a beautifully designed physical form that seamlessly integrates with any vehicle. With Bluetooth connectivity and thoughtful engineering, we'll transform Chad from a digital companion into a tangible presence in your car, making every drive more engaging and enjoyable – no matter what year your car was made. 
 
+## Demo Video
+Check out our demo video showcasing Chad in action: [Watch here](https://www.youtube.com/watch?v=rabkK7u8SfA)
+
 ## Team
 
 We are two passionate computer science students at [Brown University](https://www.brown.edu).
