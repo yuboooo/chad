@@ -150,7 +150,7 @@ html, body {
   animation: flicker 0.15s infinite;
 }
 
-@layer utilities {
+/* @layer utilities {
   .scrollbar-thin::-webkit-scrollbar {
     width: 6px;
   }
@@ -161,4 +161,4 @@ html, body {
     background-color: #22c55e;
     border-radius: 3px;
   }
-}
+} */

@@ -1,5 +1,5 @@
 'use client';
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 import DynamicScreen from "./DynamicScreen";
 
@@ -7,6 +7,13 @@ import DynamicScreen from "./DynamicScreen";
 export default function Home() {
   const [isListening, setIsListening] = useState(false);
   const [conversationHistory, setConversationHistory] = useState<Array<{role: string, content: string}>>([]);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [conversationHistory]);
 
   // Add this constant at the top of your component
   const API_URL = process.env.NODE_ENV === 'development' 
@@ -134,9 +141,12 @@ export default function Home() {
       </div>
       {/* bg-black/80  */}
       {/* Chat container - fixed width and centered */}
-      <div className="row-start-2 w-[350px] h-[35vh]  p-4 mb-3">
+      <div className="row-start-2 w-[340px] h-[35vh] p-4 mb-3 relative left-[-25px]">
         {/* Chat history with fixed width messages */}
-        <div className="h-[calc(37vh-7rem)] overflow-y-auto mb-8 scrollbar-thin scrollbar-thumb-green-500 scrollbar-track-gray-800">
+        <div 
+          ref={chatContainerRef}
+          className="h-[calc(37vh-7rem)] overflow-y-auto mb-8 scrollbar-thin scrollbar-thumb-green-500 scrollbar-track-gray-800"
+        >
           {conversationHistory.map((message, index) => (
             <div 
               key={index} 
@@ -146,11 +156,11 @@ export default function Home() {
                   : 'text-left'
               }`}
             >
-              <div className={`inline-block w-[200px] break-words whitespace-normal ${
+              <div className={`inline-block w-[210px] break-words whitespace-normal ${
                 message.role === 'user'
-                  ? 'bg-green-900/40 border-green-500/50'
-                  : 'bg-gray-900/40 border-blue-500/50'
-                } p-3 rounded border text-green-400 font-mono text-sm`}
+                  ? ''
+                  : ''
+                } p-3 rounded  text-green-400 font-mono text-sm`}
               >
                 <div className="text-xs opacity-50 mb-1">
                   {message.role === 'user' ? '> USER_INPUT' : '> SYSTEM_RESPONSE'}
